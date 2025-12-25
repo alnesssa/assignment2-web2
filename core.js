@@ -2,27 +2,27 @@ const axios = require("axios");
 
 async function getUserData(req, res) {
   try {
-    // 1️⃣ Random User
+    // Random User
     const userResponse = await axios.get("https://randomuser.me/api/");
     const user = userResponse.data.results[0];
 
     const country = user.location.country;
 
-    // 2️⃣ Countrylayer
+    // Countrylayer
     const countryResponse = await axios.get(
       `http://api.countrylayer.com/v2/name/${country}?access_key=${process.env.COUNTRY_API_KEY}`
     );
 
     const countryData = countryResponse.data[0];
 
-    // 3️⃣ Exchange Rate (используем KZT если нет валюты)
+    // Exchange Rate 
     const baseCurrency = "KZT";
 
     const exchangeResponse = await axios.get(
       `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API_KEY}/latest/${baseCurrency}`
     );
 
-    // 4️⃣ News
+    // News
     const newsResponse = await axios.get(
       `https://newsapi.org/v2/everything?q=${country}&language=en&pageSize=5&apiKey=${process.env.NEWS_API_KEY}`
     );
